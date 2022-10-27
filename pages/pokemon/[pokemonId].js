@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { faFireAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useRouter } from "next/router";
 
 const api = "https://pokeapi.co/api/v2/pokemon/";
 export const getStaticPaths = async () => {
 
-    const maxPokemons = 50
+    const maxPokemons = 250
     const res = await fetch(`${api}/?limit=${maxPokemons}`)
     const data = await res.json()
 
@@ -16,7 +17,8 @@ export const getStaticPaths = async () => {
         }
     })
 
-    return { paths, fallback: false }
+    // return { paths, fallback: false }
+    return { paths, fallback: true }
 }
 
 
@@ -33,6 +35,14 @@ export const getStaticProps = async (context) => {
 
 // app test case 
 export default function Pokemon({ pokemon }) {
+
+    const router = useRouter()
+    // waiting data 
+    if (router.isFallback) {
+        return <div className="flex justify-center">
+            Loading...
+        </div>
+    }
     return (
         <div className="flex flex-col items-center space-y-3 my-12">
             <p className="text-4xl max-w-md bg-red-300 py-4 px-8 rounded font-bold ">{pokemon.name}</p>
