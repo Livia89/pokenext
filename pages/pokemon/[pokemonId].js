@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { faFireAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
+import { Progress } from 'flowbite-react';
 
 const api = 'https://pokeapi.co/api/v2/pokemon/';
 export const getStaticPaths = async () => {
@@ -38,16 +39,16 @@ export default function Pokemon({ pokemon }) {
 	}
 	return (
 		<div className="flex flex-col items-center space-y-3 my-12">
-			<p className="text-4xl max-w-md bg-red-300 py-4 px-8 rounded font-bold ">
+			<p className="text-4xl max-w-md bg-red-700 py-4 px-8 rounded font-bold text-white">
 				{pokemon.name}
 			</p>
 			<div>
 				<Image
-					className="my-6"
+					className="mb-6"
 					src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokemon.id}.png`}
 					alt={pokemon.name}
-					width={300}
-					height={300}
+					width={250}
+					height={250}
 				/>
 			</div>
 			<div className="w-72 text-center flex flex-col space-y-4">
@@ -85,6 +86,32 @@ export default function Pokemon({ pokemon }) {
 						<span>{pokemon.weight / 10} kg</span>
 					</div>
 				</div>
+			</div>
+			<div className="md:w-1/2 2xl:1/3 w-full space-y-4 px-6">
+				<h2 className="font-semibold text-2xl my-6 text-center">Base stats</h2>
+
+				{pokemon?.stats.map((type, index) => {
+					const { base_stat, stat } = { ...type };
+					const newName = stat.name.split('-').join(' ');
+					const colors = [
+						'red',
+						'pink',
+						'yellow',
+						'green',
+						'indigo',
+						'blue',
+						'indigo',
+						'purple',
+					];
+					return (
+						<div key={index}>
+							<div className=" text-left text-sm font-semibold text-gray-500">
+								{newName.charAt(0).toUpperCase() + newName.slice(1)}
+							</div>
+							<Progress progress={base_stat} color={colors[index]} size="md" />
+						</div>
+					);
+				})}
 			</div>
 		</div>
 	);
