@@ -3,7 +3,7 @@
 
 This project is to list some pokemons api and show their respective properties
 
-Link: [PokeNext](https://pokenext-iv0wgdp8s-livia89.vercel.app) .
+Link: [PokeNext](https://pokenext-eight-plum.vercel.app/) .
 
 ---
 ### *Don't forget to run npm install to install all dependencies before running this project*
